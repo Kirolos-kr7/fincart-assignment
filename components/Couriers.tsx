@@ -9,6 +9,7 @@ import {
   INTERNATIONAL_RATE,
   VAT,
 } from '@/utils/couriers'
+import { calculateShippingCost } from '@/utils/shipping'
 import { useEffect } from 'react'
 
 export default function Couriers({
@@ -64,37 +65,33 @@ export default function Couriers({
   })
 
   const renderCourierDetails = (courier: (typeof COURIER_DETAILS)[0]) => {
-    const selectedCourierLimit = COURIERS_LIMITS.find(
-      (limit: (typeof COURIERS_LIMITS)[0]) =>
-        limit.courierId === courier.id && limit.weight >= packageDetails.weight,
-    )
-
-    const selectedCourierCost =
-      (selectedCourierLimit?.cost || 0) +
-      (isInternational
-        ? (selectedCourierLimit?.cost || 0) * INTERNATIONAL_RATE
-        : 0)
-    const selectedCourierDays = selectedCourierLimit?.days || 0
+    const { cost, days } = calculateShippingCost({
+      courierId: courier.id,
+      weight: packageDetails.weight,
+      isInternational,
+    })
 
     return (
       <>
         <Typography variant="body1" sx={{ fontWeight: '500', fontSize: 14 }}>
-          {money(selectedCourierCost)} +{' '}
-          {(selectedCourierCost * VAT).toFixed(2)} (VAT)
+          {money(cost)} + {(cost * VAT).toFixed(2)} (VAT)
         </Typography>
 
         <Typography variant="body2" sx={{ fontSize: 12 }}>
-          Estimated delivery {selectedCourierDays} day
+          Estimated delivery {days} day
         </Typography>
       </>
     )
   }
 
-  const selectedCourier = COURIERS_LIMITS.find(
-    (limit) =>
-      limit.courierId === selectedCourierId &&
-      limit.weight >= packageDetails.weight,
-  )!
+  const selectedCourierPricing =
+    selectedCourierId != null
+      ? calculateShippingCost({
+          courierId: selectedCourierId,
+          weight: packageDetails.weight,
+          isInternational,
+        })
+      : null
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 3 }}>
@@ -186,7 +183,7 @@ export default function Couriers({
         )}
       </Grid>
 
-      {selectedCourier && (
+      {selectedCourierPricing && (
         <Alert
           variant="standard"
           sx={{ mt: 2, bgcolor: 'secondary.main' }}
@@ -204,12 +201,7 @@ export default function Couriers({
           }}
         >
           <Typography variant="body1" sx={{ fontSize: 16, fontWeight: '600' }}>
-            Total after VAT:{' '}
-            {money(
-              selectedCourier.cost +
-                selectedCourier.cost * VAT +
-                selectedCourier.cost * INTERNATIONAL_RATE,
-            )}
+            Total after VAT: {money(selectedCourierPricing.costAfterVat)}
           </Typography>
         </Alert>
       )}

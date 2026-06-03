@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "post-update": "echo \"codesandbox preview only, need an update\" && pnpm update --latest",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@emotion/cache": "latest",
@@ -34,6 +36,7 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "prettier": "^3.8.3",
-    "typescript": "latest"
+    "typescript": "latest",
+    "vitest": "^4.1.8"
   }
 }

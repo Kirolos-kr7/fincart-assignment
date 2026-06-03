@@ -1,11 +1,7 @@
 import { Order } from '@/store/ordersStore'
-import {
-  COURIER_DETAILS,
-  COURIERS_LIMITS,
-  INTERNATIONAL_RATE,
-  VAT,
-} from '@/utils/couriers'
+import { COURIER_DETAILS } from '@/utils/couriers'
 import { money } from '@/utils/money'
+import { calculateShippingCost } from '@/utils/shipping'
 import { Box, Typography } from '@mui/material'
 
 export default function Summary({
@@ -21,20 +17,13 @@ export default function Summary({
     (courier) => courier.id === packageDetails.courierId,
   )
 
-  const selectedCourierLimit = COURIERS_LIMITS.find(
-    (limit) =>
-      limit.courierId === packageDetails.courierId &&
-      limit.weight >= packageDetails.weight,
-  )
-
   const isInternational =
     originDetails.originCountry !== destinationDetails.destinationCountry
-  const cost =
-    (selectedCourierLimit?.cost || 0) +
-    (isInternational
-      ? (selectedCourierLimit?.cost || 0) * INTERNATIONAL_RATE
-      : 0)
-  const costAfterVAT = cost + cost * VAT
+  const { cost, costAfterVat, days } = calculateShippingCost({
+    courierId: packageDetails.courierId,
+    weight: packageDetails.weight,
+    isInternational,
+  })
 
   return (
     <Box
@@ -136,11 +125,9 @@ export default function Summary({
           </Typography>
           <Typography variant="body2">Cost: {money(cost)}</Typography>
           <Typography variant="body2">
-            Cost after VAT: {money(costAfterVAT)}
+            Cost after VAT: {money(costAfterVat)}
           </Typography>
-          <Typography variant="body2">
-            Days: {selectedCourierLimit?.days || 0}
-          </Typography>
+          <Typography variant="body2">Days: {days}</Typography>
           <Typography variant="body2">
             Collect Cash: {packageDetails.collectCash ? 'Yes' : 'No'}
           </Typography>
