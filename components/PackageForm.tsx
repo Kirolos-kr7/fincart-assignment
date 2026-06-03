@@ -54,6 +54,8 @@ export default function PackageForm({ onBack }: { onBack: () => void }) {
         createdAt: new Date(),
       })
 
+      showMessage('Order created successfully')
+
       router.push('/orders')
     } catch (error: any) {
       showMessage(error.message)

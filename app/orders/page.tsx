@@ -11,7 +11,6 @@ import {
 } from '@mui/material'
 import { Order, useOrdersStore } from '@/store/ordersStore'
 import Summary from '@/components/Summary'
-import theme from '@/theme'
 
 export default function OrdersPage() {
   const { orders, clearOrders } = useOrdersStore()
