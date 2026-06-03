@@ -53,7 +53,7 @@ export default function DestinationForm({
       spacing={2}
     >
       <Grid size={12}>
-        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
+        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: -1 }}>
           Receiver Details
         </Typography>
       </Grid>
@@ -93,7 +93,7 @@ export default function DestinationForm({
       </Grid>
 
       <Grid size={12}>
-        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
+        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: -1 }}>
           Location
         </Typography>
       </Grid>

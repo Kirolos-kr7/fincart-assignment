@@ -86,7 +86,7 @@ export default function PackageForm({ onBack }: { onBack: () => void }) {
       spacing={2}
     >
       <Grid size={12}>
-        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
+        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: -1 }}>
           Package
         </Typography>
       </Grid>
