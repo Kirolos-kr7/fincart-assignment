@@ -1,0 +1,218 @@
+import {
+  Alert,
+  Badge,
+  Box,
+  Button,
+  ButtonBase,
+  Grid,
+  Typography,
+} from '@mui/material'
+import Image from 'next/image'
+import { money } from '@/utils/money'
+import { useFormStore } from '@/store/formStore'
+import { Info } from '@mui/icons-material'
+import { COURIER_DETAILS, COURIERS_LIMITS, VAT } from '@/utils/couriers'
+import { useEffect } from 'react'
+
+export default function Couriers({
+  selectedCourierId,
+  setSelectedCourierId,
+}: {
+  selectedCourierId: number | null
+  setSelectedCourierId: (courierId: number | null) => void
+}) {
+  const { originDetails, destinationDetails, packageDetails } = useFormStore()
+  const originCountry = originDetails.originCountry
+  const destinationCountry = destinationDetails.destinationCountry
+  const isInternational = originCountry !== destinationCountry
+
+  const filteredCouriers = COURIER_DETAILS.filter(
+    (courier) =>
+      (courier.countries.includes(originCountry) ||
+        courier.countries.includes('*')) &&
+      (courier.countries.includes(destinationCountry) ||
+        courier.countries.includes('*')),
+  ).filter((courier) => {
+    const limits = COURIERS_LIMITS.filter(
+      (limit) =>
+        limit.courierId === courier.id && limit.weight >= packageDetails.weight,
+    )
+    return limits.length > 0
+  })
+
+  useEffect(() => {
+    if (!filteredCouriers.length) setSelectedCourierId(null)
+  }, [packageDetails.weight])
+
+  let cheapestId = 0
+  let cheapestCost = Infinity
+  COURIERS_LIMITS.filter(
+    (limit) => limit.weight >= packageDetails.weight,
+  ).forEach((limit) => {
+    if (limit.cost < cheapestCost) {
+      cheapestCost = limit.cost
+      cheapestId = limit.courierId
+    }
+  })
+
+  let fastestId = 0
+  let fastestDays = Infinity
+  COURIERS_LIMITS.filter(
+    (limit) => limit.weight >= packageDetails.weight,
+  ).forEach((limit) => {
+    if (limit.days < fastestDays) {
+      fastestDays = limit.days
+      fastestId = limit.courierId
+    }
+  })
+
+  const renderCourierDetails = (courier: (typeof COURIER_DETAILS)[0]) => {
+    const selectedCourierLimit = COURIERS_LIMITS.find(
+      (limit: (typeof COURIERS_LIMITS)[0]) =>
+        limit.courierId === courier.id && limit.weight >= packageDetails.weight,
+    )
+
+    const selectedCourierCost = selectedCourierLimit?.cost!
+    const selectedCourierDays = selectedCourierLimit?.days!
+
+    return (
+      <>
+        <Typography variant="body1" sx={{ fontWeight: '500', fontSize: 14 }}>
+          {money(selectedCourierCost)} +{' '}
+          {(selectedCourierCost * VAT).toFixed(2)} (VAT)
+        </Typography>
+
+        <Typography variant="body2" sx={{ fontSize: 12 }}>
+          Estimated delivery {selectedCourierDays} day
+        </Typography>
+      </>
+    )
+  }
+
+  const selectedCourier = COURIERS_LIMITS.find(
+    (limit) =>
+      limit.courierId === selectedCourierId &&
+      limit.weight >= packageDetails.weight,
+  )!
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 3 }}>
+      <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
+        Couriers {isInternational ? 'International' : '(Domestic)'}
+      </Typography>
+
+      <Grid container spacing={2}>
+        {filteredCouriers.length === 0 ? (
+          <Typography
+            variant="body1"
+            sx={{
+              width: '100%',
+              color: 'text.secondary',
+              textAlign: 'center',
+              py: 3,
+            }}
+          >
+            No couriers available
+          </Typography>
+        ) : (
+          <>
+            {filteredCouriers.map((courier: (typeof COURIER_DETAILS)[0]) => (
+              <Grid
+                key={courier.id}
+                size={{ xs: 12, sm: 6 }}
+                sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+              >
+                <Button
+                  key={courier.id}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1,
+                    border: '1px solid #ccc',
+                    padding: 1,
+                    borderRadius: 2,
+                    cursor: 'pointer',
+                    backgroundColor:
+                      selectedCourierId === courier.id
+                        ? 'ButtonShadow'
+                        : 'transparent',
+                    transition: 'background-color 0.3s ease',
+                    color: 'text.primary',
+                  }}
+                  onClick={() => setSelectedCourierId(courier.id)}
+                >
+                  <ExtraBadge
+                    extra={
+                      courier.id === cheapestId
+                        ? 'CHEAPEST'
+                        : courier.id === fastestId
+                          ? 'FASTEST'
+                          : undefined
+                    }
+                  />
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      width: 100,
+                      height: 50,
+                    }}
+                  >
+                    <Image
+                      src={courier.image}
+                      alt={courier.name}
+                      fill
+                      objectFit="contain"
+                    />
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {renderCourierDetails(courier)}
+                  </Box>
+                </Button>
+              </Grid>
+            ))}
+          </>
+        )}
+      </Grid>
+
+      {selectedCourier && (
+        <Alert
+          variant="standard"
+          sx={{ mt: 2, bgcolor: 'secondary.main' }}
+          iconMapping={{
+            success: <Info fontSize="small" sx={{ color: '#000' }} />,
+          }}
+        >
+          <Typography variant="body1" sx={{ fontSize: 16, fontWeight: '600' }}>
+            Total after VAT:{' '}
+            {money(selectedCourier.cost + selectedCourier.cost * VAT)}
+          </Typography>
+        </Alert>
+      )}
+    </Box>
+  )
+}
+
+const ExtraBadge = ({ extra }: { extra: string | undefined }) => {
+  if (!extra) return null
+
+  return (
+    <Badge
+      color={extra === 'FASTEST' ? 'error' : 'primary'}
+      sx={{
+        position: 'absolute',
+        top: '0',
+        left: '50%',
+        transform: 'translateX(-50%)',
+      }}
+      badgeContent={<Typography sx={{ fontSize: 12 }}>{extra}</Typography>}
+    />
+  )
+}

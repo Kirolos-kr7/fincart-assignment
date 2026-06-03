@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Toolbar, Box } from '@mui/material'
+import { Toolbar, Box, Link } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 
 export default function Navbar() {
@@ -7,11 +7,15 @@ export default function Navbar() {
     <AppBar sx={{ boxShadow: 'none' }}>
       <Toolbar
         sx={{
-          backgroundColor: '#eee',
+          backgroundColor: 'secondary.main',
           justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ position: 'relative', width: 140, height: 40 }}>
+        <Box
+          sx={{ position: 'relative', width: 140, height: 40 }}
+          component={Link}
+          href="/"
+        >
           <Image
             src="/logo.avif"
             alt="logo"
@@ -20,6 +24,11 @@ export default function Navbar() {
             loading="eager"
             priority
           />
+        </Box>
+
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Link href="/">New Order</Link>
+          <Link href="/orders">Orders</Link>
         </Box>
       </Toolbar>
     </AppBar>

@@ -1,0 +1,89 @@
+'use client'
+
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Container,
+  Typography,
+} from '@mui/material'
+import { Order, useOrdersStore } from '@/store/ordersStore'
+import Summary from '@/components/Summary'
+
+export default function OrdersPage() {
+  const { orders } = useOrdersStore()
+
+  return (
+    <Container>
+      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+        Orders
+      </Typography>
+
+      {orders.length === 0 && (
+        <Box
+          component="div"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 2,
+            my: 3,
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{ color: 'text.secondary', textAlign: 'center' }}
+          >
+            No orders found, start by creating a new order
+          </Typography>
+          <Button variant="contained" color="primary" href="/">
+            Create New Order
+          </Button>
+        </Box>
+      )}
+
+      <Box>
+        {orders.map((order) => (
+          <OrderCard key={order.id} order={order} />
+        ))}
+      </Box>
+    </Container>
+  )
+}
+
+function OrderCard({ order }: { order: Order }) {
+  if (!order) return null
+
+  return (
+    <Accordion variant="outlined">
+      <AccordionSummary sx={{ backgroundColor: 'secondary.main' }}>
+        <Box
+          component="div"
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            gap: 2,
+          }}
+        >
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+            {order?.id}
+          </Typography>
+
+          <Typography variant="body2">
+            {order?.createdAt
+              ? new Date(order.createdAt).toDateString()
+              : 'N/A'}
+          </Typography>
+        </Box>
+      </AccordionSummary>
+      <AccordionDetails sx={{ pt: 2 }}>
+        <Summary order={order} />
+      </AccordionDetails>
+    </Accordion>
+  )
+}

@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles'
 import { Poppins } from 'next/font/google'
 
 const poppins = Poppins({
-  weight: ['300', '400', '500', '700'],
+  weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
 })
@@ -16,18 +16,23 @@ const theme = createTheme({
   typography: {
     fontFamily: poppins.style.fontFamily,
   },
+  palette: {
+    primary: {
+      main: '#0164FA',
+    },
+    secondary: {
+      main: '#E8FAF5',
+    },
+  },
   components: {
-    MuiAlert: {
+    MuiButton: {
       styleOverrides: {
         root: {
-          variants: [
-            {
-              props: { severity: 'info' },
-              style: {
-                backgroundColor: '#60a5fa',
-              },
-            },
-          ],
+          boxShadow: 'none',
+          borderRadius: 20,
+          '&:hover': {
+            boxShadow: 'none',
+          },
         },
       },
     },

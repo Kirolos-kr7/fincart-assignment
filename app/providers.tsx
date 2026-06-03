@@ -16,7 +16,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <AppRouterCacheProvider options={{ enableCssLayer: true }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <SnackbarProvider SnackbarProps={{ autoHideDuration: 2000 }}>
+          <SnackbarProvider
+            SnackbarProps={{
+              autoHideDuration: 2000,
+              anchorOrigin: { vertical: 'top', horizontal: 'right' },
+            }}
+          >
             {children}
           </SnackbarProvider>
         </ThemeProvider>
