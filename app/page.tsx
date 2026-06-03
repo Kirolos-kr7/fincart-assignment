@@ -5,7 +5,7 @@ import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import { useState } from 'react'
 import { Container, Grid } from '@mui/material'
-import OrginForm from '@/components/OrginForm'
+import OriginForm from '@/components/OriginForm'
 import DestinationForm from '@/components/DestinationForm'
 import PackageForm from '@/components/PackageForm'
 import Summary from '@/components/Summary'
@@ -34,7 +34,7 @@ export default function HomePage() {
             ))}
           </Stepper>
 
-          {activeStep === 0 && <OrginForm onNext={handleNext} />}
+          {activeStep === 0 && <OriginForm onNext={handleNext} />}
           {activeStep === 1 && (
             <DestinationForm onNext={handleNext} onBack={handleBack} />
           )}

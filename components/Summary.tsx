@@ -13,6 +13,7 @@ export default function Summary({
   order: Order
   step: number
 }) {
+  const countries = countriesList.getData()
   const { originDetails, destinationDetails, packageDetails } = order
 
   const selectedCourier = COURIER_DETAILS.find(
@@ -57,16 +58,18 @@ export default function Summary({
           </Typography>
           <Typography variant="body2">
             Country:{' '}
-            <CountryFlag
-              countryCode={originDetails.originCountry}
-              svg
-              style={{
-                width: '2em',
-              }}
-            />
-            {countriesList
-              .getName(originDetails.originCountry)
-              ?.replace('(the)', '')}
+            {originDetails.originCountry && (
+              <CountryFlag
+                countryCode={originDetails.originCountry}
+                svg
+                style={{
+                  width: '2em',
+                }}
+              />
+            )}
+            {countries
+              .find((country) => country.code === originDetails.originCountry)
+              ?.name.replace('(the)', '')}
           </Typography>
           <Typography variant="body2">
             City: {originDetails.originCity}
@@ -99,16 +102,21 @@ export default function Summary({
           </Typography>
           <Typography variant="body2">
             Country:{' '}
-            <CountryFlag
-              countryCode={destinationDetails.destinationCountry}
-              svg
-              style={{
-                width: '2em',
-              }}
-            />
-            {countriesList
-              .getName(destinationDetails.destinationCountry)
-              ?.replace('(the)', '')}
+            {destinationDetails.destinationCountry && (
+              <CountryFlag
+                countryCode={destinationDetails.destinationCountry}
+                svg
+                style={{
+                  width: '2em',
+                }}
+              />
+            )}
+            {countries
+              .find(
+                (country) =>
+                  country.code === destinationDetails.destinationCountry,
+              )
+              ?.name.replace('(the)', '')}
           </Typography>
           <Typography variant="body2">
             City: {destinationDetails.destinationCity}

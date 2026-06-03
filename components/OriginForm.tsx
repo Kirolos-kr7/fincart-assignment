@@ -10,13 +10,11 @@ import {
   Typography,
 } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
-import countriesList from 'country-list'
 import { useEffect } from 'react'
-import { watch } from 'fs'
+import CountriesSelect from './CountriesSelect'
 
-export default function OrginForm({ onNext }: { onNext: () => void }) {
+export default function OriginForm({ onNext }: { onNext: () => void }) {
   const { originDetails, setOriginDetails } = useFormStore()
-  const countries = countriesList.getData()
 
   const form = useForm<OriginDetails>({
     resolver: zodResolver(originDetailsSchema),
@@ -103,36 +101,12 @@ export default function OrginForm({ onNext }: { onNext: () => void }) {
         </Typography>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 6 }}>
+      <Grid size={12}>
         <Controller
           control={form.control}
           name="originCountry"
           render={({ field, fieldState }) => (
-            <>
-              <Autocomplete
-                options={countries}
-                fullWidth
-                size="small"
-                isOptionEqualToValue={(option, value) =>
-                  option.code === value.code
-                }
-                getOptionLabel={(option) => option.name.replace('(the)', '')}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Country"
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
-                  />
-                )}
-                onChange={(event, value) => {
-                  field.onChange(value?.code)
-                }}
-                value={countries.find(
-                  (country) => country.code === field.value,
-                )}
-              />
-            </>
+            <CountriesSelect field={field} fieldState={fieldState} />
           )}
         />
       </Grid>

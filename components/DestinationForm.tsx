@@ -12,6 +12,7 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import countriesList from 'country-list'
 import { useEffect } from 'react'
+import CountriesSelect from './CountriesSelect'
 
 export default function DestinationForm({
   onNext,
@@ -97,27 +98,12 @@ export default function DestinationForm({
         </Typography>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 6 }}>
+      <Grid size={12}>
         <Controller
           control={form.control}
           name="destinationCountry"
           render={({ field, fieldState }) => (
-            <Autocomplete
-              options={countries}
-              fullWidth
-              size="small"
-              isOptionEqualToValue={(option, value) =>
-                option.code === value.code
-              }
-              getOptionLabel={(option) => option.name.replace('(the)', '')}
-              renderInput={(params) => (
-                <TextField {...params} label="Country" />
-              )}
-              onChange={(event, value) => {
-                field.onChange(value?.code)
-              }}
-              value={countries.find((country) => country.code === field.value)}
-            />
+            <CountriesSelect field={field} fieldState={fieldState} />
           )}
         />
       </Grid>
