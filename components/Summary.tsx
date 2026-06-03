@@ -3,6 +3,8 @@ import { COURIER_DETAILS } from '@/utils/couriers'
 import { money } from '@/utils/money'
 import { calculateShippingCost } from '@/utils/shipping'
 import { Box, Typography } from '@mui/material'
+import CountryFlag from 'react-country-flag'
+import countriesList from 'country-list'
 
 export default function Summary({
   order,
@@ -54,7 +56,17 @@ export default function Summary({
             Phone: {originDetails.originPhone}
           </Typography>
           <Typography variant="body2">
-            Country: {originDetails.originCountry}
+            Country:{' '}
+            <CountryFlag
+              countryCode={originDetails.originCountry}
+              svg
+              style={{
+                width: '2em',
+              }}
+            />
+            {countriesList
+              .getName(originDetails.originCountry)
+              ?.replace('(the)', '')}
           </Typography>
           <Typography variant="body2">
             City: {originDetails.originCity}
@@ -86,7 +98,17 @@ export default function Summary({
             Phone: {destinationDetails.destinationPhone}
           </Typography>
           <Typography variant="body2">
-            Country: {destinationDetails.destinationCountry}
+            Country:{' '}
+            <CountryFlag
+              countryCode={destinationDetails.destinationCountry}
+              svg
+              style={{
+                width: '2em',
+              }}
+            />
+            {countriesList
+              .getName(destinationDetails.destinationCountry)
+              ?.replace('(the)', '')}
           </Typography>
           <Typography variant="body2">
             City: {destinationDetails.destinationCity}
