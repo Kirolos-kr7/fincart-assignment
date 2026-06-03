@@ -9,20 +9,33 @@ const poppins = Poppins({
 })
 
 const theme = createTheme({
-  colorSchemes: { light: true, dark: true },
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          main: '#0164FA',
+        },
+        secondary: {
+          main: '#E8FAF5',
+        },
+      },
+    },
+    dark: {
+      palette: {
+        primary: {
+          main: '#0164FA',
+        },
+        secondary: {
+          main: '#212121',
+        },
+      },
+    },
+  },
   cssVariables: {
     colorSchemeSelector: 'class',
   },
   typography: {
     fontFamily: poppins.style.fontFamily,
-  },
-  palette: {
-    primary: {
-      main: '#0164FA',
-    },
-    secondary: {
-      main: '#E8FAF5',
-    },
   },
   components: {
     MuiButton: {

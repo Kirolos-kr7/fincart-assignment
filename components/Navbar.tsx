@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Toolbar, Box, Link } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
+import ModeSwitch from './ModeSwitch'
 
 export default function Navbar() {
   return (
@@ -26,9 +27,10 @@ export default function Navbar() {
           />
         </Box>
 
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Link href="/">New Order</Link>
           <Link href="/orders">Orders</Link>
+          <ModeSwitch />
         </Box>
       </Toolbar>
     </AppBar>
