@@ -95,7 +95,7 @@ function OrderCard({ order }: { order: Order }) {
 
           <Typography variant="body2" sx={{ textAlign: 'center' }}>
             {order?.createdAt
-              ? new Date(order.createdAt).toDateString()
+              ? new Date(order.createdAt).toLocaleString()
               : 'N/A'}
           </Typography>
         </Box>
