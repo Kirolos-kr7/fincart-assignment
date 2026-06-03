@@ -101,7 +101,7 @@ function OrderCard({ order }: { order: Order }) {
         </Box>
       </AccordionSummary>
       <AccordionDetails sx={{ pt: 2 }}>
-        <Summary order={order} />
+        <Summary order={order} step={3} />
       </AccordionDetails>
     </Accordion>
   )

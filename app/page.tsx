@@ -50,6 +50,7 @@ export default function HomePage() {
               packageDetails,
               createdAt: new Date(),
             }}
+            step={activeStep}
           />
         </Grid>
       </Grid>
