@@ -1,4 +1,12 @@
-import { Alert, Badge, Box, Button, Grid, Typography } from '@mui/material'
+import {
+  Alert,
+  Badge,
+  Box,
+  Button,
+  Grid,
+  Skeleton,
+  Typography,
+} from '@mui/material'
 import Image from 'next/image'
 import { money } from '@/utils/money'
 import { useFormStore } from '@/store/formStore'
@@ -10,7 +18,7 @@ import {
   VAT,
 } from '@/utils/couriers'
 import { calculateShippingCost } from '@/utils/shipping'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Couriers({
   selectedCourierId,
@@ -24,19 +32,51 @@ export default function Couriers({
   const destinationCountry = destinationDetails.destinationCountry
   const isInternational = originCountry !== destinationCountry
 
-  const filteredCouriers = COURIER_DETAILS.filter(
-    (courier) =>
-      (courier.countries.includes(originCountry) ||
-        courier.countries.includes('*')) &&
-      (courier.countries.includes(destinationCountry) ||
-        courier.countries.includes('*')),
-  ).filter((courier) => {
-    const limits = COURIERS_LIMITS.filter(
-      (limit) =>
-        limit.courierId === courier.id && limit.weight >= packageDetails.weight,
+  const [initial, setInitial] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [courierDetails, setCourierDetails] = useState<typeof COURIER_DETAILS>(
+    [],
+  )
+  const [courierLimits, setCourierLimits] = useState<typeof COURIERS_LIMITS>([])
+
+  useEffect(() => {
+    loadCouriers()
+  }, [])
+
+  const loadCouriers = async () => {
+    setLoading(true)
+
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    if (!initial) {
+      setCourierDetails(COURIER_DETAILS)
+      setCourierLimits(COURIERS_LIMITS)
+      setError(null)
+    } else {
+      setError('Failed to load couriers')
+      setInitial(false)
+    }
+
+    setLoading(false)
+  }
+
+  const filteredCouriers = courierDetails
+    .filter(
+      (courier) =>
+        (courier.countries.includes(originCountry) ||
+          courier.countries.includes('*')) &&
+        (courier.countries.includes(destinationCountry) ||
+          courier.countries.includes('*')),
     )
-    return limits.length > 0
-  })
+    .filter((courier) => {
+      const limits = courierLimits.filter(
+        (limit) =>
+          limit.courierId === courier.id &&
+          limit.weight >= packageDetails.weight,
+      )
+      return limits.length > 0
+    })
 
   useEffect(() => {
     if (!filteredCouriers.length) setSelectedCourierId(null)
@@ -44,25 +84,25 @@ export default function Couriers({
 
   let cheapestId = 0
   let cheapestCost = Infinity
-  COURIERS_LIMITS.filter(
-    (limit) => limit.weight >= packageDetails.weight,
-  ).forEach((limit) => {
-    if (limit.cost < cheapestCost) {
-      cheapestCost = limit.cost
-      cheapestId = limit.courierId
-    }
-  })
+  courierLimits
+    .filter((limit) => limit.weight >= packageDetails.weight)
+    .forEach((limit) => {
+      if (limit.cost < cheapestCost) {
+        cheapestCost = limit.cost
+        cheapestId = limit.courierId
+      }
+    })
 
   let fastestId = 0
   let fastestDays = Infinity
-  COURIERS_LIMITS.filter(
-    (limit) => limit.weight >= packageDetails.weight,
-  ).forEach((limit) => {
-    if (limit.days < fastestDays) {
-      fastestDays = limit.days
-      fastestId = limit.courierId
-    }
-  })
+  courierLimits
+    .filter((limit) => limit.weight >= packageDetails.weight)
+    .forEach((limit) => {
+      if (limit.days < fastestDays) {
+        fastestDays = limit.days
+        fastestId = limit.courierId
+      }
+    })
 
   const renderCourierDetails = (courier: (typeof COURIER_DETAILS)[0]) => {
     const { cost, days } = calculateShippingCost({
@@ -103,18 +143,56 @@ export default function Couriers({
       </Typography>
 
       <Grid container spacing={2}>
-        {filteredCouriers.length === 0 ? (
-          <Typography
-            variant="body1"
-            sx={{
-              width: '100%',
-              color: 'text.secondary',
-              textAlign: 'center',
-              py: 3,
-            }}
-          >
-            No couriers available
-          </Typography>
+        {loading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <Grid key={index} size={{ xs: 12, sm: 6 }}>
+              <Skeleton
+                variant="rectangular"
+                sx={{ borderRadius: 2 }}
+                height={100}
+              />
+            </Grid>
+          ))
+        ) : !filteredCouriers.length ? (
+          error ? (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                py: 3,
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{
+                  width: '100%',
+                  color: 'text.secondary',
+                  textAlign: 'center',
+                }}
+              >
+                There was an issue while loading the couriers
+              </Typography>
+              <Button variant="contained" onClick={loadCouriers}>
+                Retry
+              </Button>
+            </Box>
+          ) : (
+            <Typography
+              variant="body1"
+              sx={{
+                width: '100%',
+                color: 'text.secondary',
+                textAlign: 'center',
+                py: 3,
+              }}
+            >
+              No couriers available
+            </Typography>
+          )
         ) : (
           <>
             {filteredCouriers.map((courier: (typeof COURIER_DETAILS)[0]) => (
@@ -162,7 +240,7 @@ export default function Couriers({
                       src={courier.image}
                       alt={courier.name}
                       fill
-                      objectFit="contain"
+                      style={{ objectFit: 'contain' }}
                     />
                   </Box>
 

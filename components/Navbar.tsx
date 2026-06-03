@@ -25,10 +25,11 @@ export default function Navbar() {
           <Image
             src={'/logo-sm.avif'}
             alt="logo"
-            objectFit="contain"
+            style={{ objectFit: 'contain' }}
             fill
             loading="eager"
             priority
+            sizes="32px 32px"
           />
         </Box>
 
@@ -45,10 +46,11 @@ export default function Navbar() {
           <Image
             src={'/logo.avif'}
             alt="logo"
-            objectFit="contain"
+            style={{ objectFit: 'contain' }}
             fill
             loading="eager"
             priority
+            sizes="140px 40px"
           />
         </Box>
 
