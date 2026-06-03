@@ -8,7 +8,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body>
         <Providers>
           <Navbar />
-          <Box component="main" sx={{ marginTop: 6, paddingBlock: 4 }}>
+          <Box component="main" sx={{ mt: 6, py: { xs: 3, sm: 4 } }}>
             {props.children}
           </Box>
         </Providers>

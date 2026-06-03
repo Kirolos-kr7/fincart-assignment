@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import { Order, useOrdersStore } from '@/store/ordersStore'
 import Summary from '@/components/Summary'
+import theme from '@/theme'
 
 export default function OrdersPage() {
   const { orders } = useOrdersStore()
@@ -64,17 +65,24 @@ function OrderCard({ order }: { order: Order }) {
           component="div"
           sx={{
             display: 'flex',
+            flexDirection: {
+              xs: 'column',
+              sm: 'row',
+            },
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
             gap: 2,
           }}
         >
-          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+          <Typography
+            variant="body1"
+            sx={{ fontWeight: 'bold', textAlign: 'center' }}
+          >
             {order?.id}
           </Typography>
 
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ textAlign: 'center' }}>
             {order?.createdAt
               ? new Date(order.createdAt).toDateString()
               : 'N/A'}

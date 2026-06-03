@@ -1,17 +1,14 @@
-import {
-  Alert,
-  Badge,
-  Box,
-  Button,
-  ButtonBase,
-  Grid,
-  Typography,
-} from '@mui/material'
+import { Alert, Badge, Box, Button, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
 import { money } from '@/utils/money'
 import { useFormStore } from '@/store/formStore'
 import { Info } from '@mui/icons-material'
-import { COURIER_DETAILS, COURIERS_LIMITS, VAT } from '@/utils/couriers'
+import {
+  COURIER_DETAILS,
+  COURIERS_LIMITS,
+  INTERNATIONAL_RATE,
+  VAT,
+} from '@/utils/couriers'
 import { useEffect } from 'react'
 
 export default function Couriers({
@@ -72,8 +69,12 @@ export default function Couriers({
         limit.courierId === courier.id && limit.weight >= packageDetails.weight,
     )
 
-    const selectedCourierCost = selectedCourierLimit?.cost!
-    const selectedCourierDays = selectedCourierLimit?.days!
+    const selectedCourierCost =
+      (selectedCourierLimit?.cost || 0) +
+      (isInternational
+        ? (selectedCourierLimit?.cost || 0) * INTERNATIONAL_RATE
+        : 0)
+    const selectedCourierDays = selectedCourierLimit?.days || 0
 
     return (
       <>
@@ -98,7 +99,10 @@ export default function Couriers({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 3 }}>
       <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1 }}>
-        Couriers {isInternational ? 'International' : '(Domestic)'}
+        Couriers{' '}
+        {isInternational
+          ? '(International + ' + INTERNATIONAL_RATE * 100 + '%)'
+          : '(Domestic)'}
       </Typography>
 
       <Grid container spacing={2}>
@@ -187,12 +191,25 @@ export default function Couriers({
           variant="standard"
           sx={{ mt: 2, bgcolor: 'secondary.main' }}
           iconMapping={{
-            success: <Info fontSize="small" sx={{ color: '#000' }} />,
+            success: <Info fontSize="small" sx={{ color: 'text.primary' }} />,
+          }}
+          slotProps={{
+            icon: {
+              sx: {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+            },
           }}
         >
           <Typography variant="body1" sx={{ fontSize: 16, fontWeight: '600' }}>
             Total after VAT:{' '}
-            {money(selectedCourier.cost + selectedCourier.cost * VAT)}
+            {money(
+              selectedCourier.cost +
+                selectedCourier.cost * VAT +
+                selectedCourier.cost * INTERNATIONAL_RATE,
+            )}
           </Typography>
         </Alert>
       )}

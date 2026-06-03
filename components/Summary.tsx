@@ -1,6 +1,10 @@
-import { useFormStore } from '@/store/formStore'
 import { Order } from '@/store/ordersStore'
-import { COURIER_DETAILS, COURIERS_LIMITS, VAT } from '@/utils/couriers'
+import {
+  COURIER_DETAILS,
+  COURIERS_LIMITS,
+  INTERNATIONAL_RATE,
+  VAT,
+} from '@/utils/couriers'
 import { money } from '@/utils/money'
 import { Box, Typography } from '@mui/material'
 
@@ -16,6 +20,15 @@ export default function Summary({ order }: { order: Order }) {
       limit.courierId === packageDetails.courierId &&
       limit.weight >= packageDetails.weight,
   )
+
+  const isInternational =
+    originDetails.originCountry !== destinationDetails.destinationCountry
+  const cost =
+    (selectedCourierLimit?.cost || 0) +
+    (isInternational
+      ? (selectedCourierLimit?.cost || 0) * INTERNATIONAL_RATE
+      : 0)
+  const costAfterVAT = cost + cost * VAT
 
   return (
     <Box
@@ -106,14 +119,11 @@ export default function Summary({ order }: { order: Order }) {
           Courier: {selectedCourier?.name}
         </Typography>
         <Typography variant="body2">
-          Cost: {money(selectedCourierLimit?.cost || 0)}
+          International: {isInternational ? 'Yes' : 'No'}
         </Typography>
+        <Typography variant="body2">Cost: {money(cost)}</Typography>
         <Typography variant="body2">
-          Cost after VAT:{' '}
-          {money(
-            (selectedCourierLimit?.cost || 0) +
-              (selectedCourierLimit?.cost || 0) * VAT,
-          )}
+          Cost after VAT: {money(costAfterVAT)}
         </Typography>
         <Typography variant="body2">
           Days: {selectedCourierLimit?.days || 0}

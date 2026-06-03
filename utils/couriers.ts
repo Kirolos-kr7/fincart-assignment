@@ -1,4 +1,5 @@
 export const VAT = 0.12
+export const INTERNATIONAL_RATE = 0.2
 
 export const COURIER_DETAILS = [
   {

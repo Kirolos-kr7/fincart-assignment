@@ -15,7 +15,7 @@ const steps = ['Origin Details', 'Destination Details', 'Package Details']
 
 export default function HomePage() {
   const { originDetails, destinationDetails, packageDetails } = useFormStore()
-  const [activeStep, setActiveStep] = useState(0)
+  const [activeStep, setActiveStep] = useState(2)
 
   const handleNext = () => {
     setActiveStep(activeStep + 1)
