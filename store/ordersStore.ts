@@ -17,6 +17,7 @@ export interface Order {
 interface OrdersState {
   orders: Order[]
   addOrder: (order: Order) => void
+  clearOrders: () => void
 }
 
 export const useOrdersStore = create<OrdersState>()(
@@ -25,6 +26,7 @@ export const useOrdersStore = create<OrdersState>()(
       orders: [],
       addOrder: (order: Order) =>
         set((state) => ({ orders: [...state.orders, order] })),
+      clearOrders: () => set({ orders: [] }),
     }),
     {
       name: 'orders',

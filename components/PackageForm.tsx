@@ -2,7 +2,6 @@ import { useFormStore } from '@/store/formStore'
 import { PackageDetails, packageDetailsSchema } from '@/utils/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-  Alert,
   Box,
   Button,
   FormControlLabel,
@@ -204,6 +203,7 @@ export default function PackageForm({ onBack }: { onBack: () => void }) {
           Back
         </Button>
         <Button
+          disabled={form.watch('courierId') === null}
           type="submit"
           variant="contained"
           color="primary"

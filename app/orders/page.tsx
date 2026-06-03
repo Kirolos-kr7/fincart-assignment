@@ -14,7 +14,7 @@ import Summary from '@/components/Summary'
 import theme from '@/theme'
 
 export default function OrdersPage() {
-  const { orders } = useOrdersStore()
+  const { orders, clearOrders } = useOrdersStore()
 
   return (
     <Container>
@@ -50,6 +50,18 @@ export default function OrdersPage() {
         {orders.map((order) => (
           <OrderCard key={order.id} order={order} />
         ))}
+
+        {orders.length > 0 && (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => clearOrders()}
+            >
+              Clear Orders
+            </Button>
+          </Box>
+        )}
       </Box>
     </Container>
   )
