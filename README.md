@@ -1,47 +1,14 @@
-# Material UI - Next.js App Router example in TypeScript
+The "Senior Touch": Include a brief README.md explaining how you would handle
+an API error (e.g., if the DHL rate service is down) and how you would optimize the
+bundle size for slow 3G connections in emerging markets.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped using [`create-next-app`](https://github.com/vercel/next.js/tree/HEAD/packages/create-next-app) with Material UI installed.
+- For the DHL service is down first we setup all our requests with a retry with backoff we should show correct states for loading and error and for the error message to be appropriate also we need to give users the ability to retry again if we want to 
 
-## How to use
+---
 
-Download the example [or clone the repo](https://github.com/mui/material-ui):
-
-<!-- #target-branch-reference -->
-
-```bash
-curl https://codeload.github.com/mui/material-ui/tar.gz/master | tar -xz --strip=2  material-ui-master/examples/material-ui-nextjs-ts
-cd material-ui-nextjs-ts
-```
-
-Install it and run:
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-or:
-
-<!-- #target-branch-reference -->
-
-[![Edit on StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/mui/material-ui/tree/master/examples/material-ui-nextjs-ts)
-
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/github/mui/material-ui/tree/master/examples/material-ui-nextjs-ts)
-
-## Learn more
-
-To learn more about this example:
-
-<!-- #host-reference -->
-
-- [Next.js documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Customizing Material UI](https://mui.com/material-ui/customization/how-to-customize/) - approaches to customizing Material UI.
-
-## What's next?
-
-<!-- #host-reference -->
-
-You now have a working example project.
-You can head back to the documentation and continue by browsing the [templates](https://mui.com/material-ui/getting-started/templates/) section.
+- For the second part with slow 3G there are a few setps to be ready for that
+    1. Always use optimized assets 
+    2. We should pick dependencies that are ligher in weight for example (moment to be replaced with date-fns)
+    3. We should aim for dependencies that support tree-shaking especially with icon libraries
+    4. We can debug the dependency graph so we're able to see what the heavy dependencies are
+    5. Code splitting and lazy loading could help as well
