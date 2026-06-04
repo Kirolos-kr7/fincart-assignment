@@ -1,6 +1,6 @@
 'use client'
 
-import theme from '@/theme'
+import theme from '@/app/theme'
 import {
   CssBaseline,
   InitColorSchemeScript,
