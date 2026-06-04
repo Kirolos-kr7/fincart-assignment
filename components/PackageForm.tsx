@@ -99,7 +99,9 @@ export default function PackageForm({ onBack }: { onBack: () => void }) {
             <TextField
               {...field}
               onChange={(event) => {
-                field.onChange(Number(event.target.value))
+                field.onChange(
+                  event.target.value == '' ? '' : Number(event.target.value),
+                )
               }}
               type="number"
               fullWidth
@@ -121,7 +123,9 @@ export default function PackageForm({ onBack }: { onBack: () => void }) {
               type="number"
               {...field}
               onChange={(event) => {
-                field.onChange(Number(event.target.value))
+                field.onChange(
+                  event.target.value == '' ? '' : Number(event.target.value),
+                )
               }}
               fullWidth
               size="small"
@@ -174,7 +178,9 @@ export default function PackageForm({ onBack }: { onBack: () => void }) {
               <TextField
                 value={field.value || ''}
                 onChange={(event) => {
-                  field.onChange(Number(event.target.value))
+                  field.onChange(
+                    event.target.value == '' ? '' : Number(event.target.value),
+                  )
                 }}
                 fullWidth
                 size="small"
