@@ -1,9 +1,12 @@
 import { z } from 'zod'
+import { getCodes } from 'country-list'
+
+const countries = getCodes()
 
 export const originDetailsSchema = z.object({
   originName: z.string().nonempty(),
   originPhone: z.string().nonempty(),
-  originCountry: z.string().min(2).max(2),
+  originCountry: z.enum(countries),
   originCity: z.string().nonempty(),
   originAddress: z.string().nonempty(),
 })
@@ -11,7 +14,7 @@ export const originDetailsSchema = z.object({
 export const destinationDetailsSchema = z.object({
   destinationName: z.string().nonempty(),
   destinationPhone: z.string().nonempty(),
-  destinationCountry: z.string().min(2).max(2),
+  destinationCountry: z.enum(countries),
   destinationCity: z.string().nonempty(),
   destinationAddress: z.string().nonempty(),
 })
