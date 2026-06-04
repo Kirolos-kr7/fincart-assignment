@@ -135,7 +135,7 @@ export default function Couriers({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 3 }}>
-      <Typography variant="body1" sx={{ fontWeight: 'bold', mb: -1 }}>
+      <Typography variant="body1" sx={{ fontWeight: 'bold', mb: -0.5 }}>
         Couriers{' '}
         {isInternational
           ? '(International + ' + INTERNATIONAL_RATE * 100 + '%)'

@@ -1,4 +1,3 @@
-import { DestinationDetails, OriginDetails } from '@/utils/schema'
 import { Autocomplete, TextField } from '@mui/material'
 import countriesList from 'country-list'
 import ReactCountryFlag from 'react-country-flag'
@@ -12,13 +11,17 @@ export default function CountriesSelect({
   fieldState: ControllerFieldState
 }) {
   const countries = countriesList.getData()
+  const selectedCountry =
+    countries.find((country) => country.code === field.value) ?? null
 
   return (
     <Autocomplete
       options={countries}
       fullWidth
       size="small"
-      isOptionEqualToValue={(option, value) => option.code === value.code}
+      isOptionEqualToValue={(option, value) =>
+        value == null || option.code === value.code
+      }
       getOptionLabel={(option) => option.name.replace('(the)', '')}
       renderOption={(props, option) => (
         <li {...props} key={option.code}>
@@ -49,10 +52,11 @@ export default function CountriesSelect({
           helperText={fieldState.error?.message}
         />
       )}
-      onChange={(event, value) => {
-        field.onChange(value?.code)
+      onChange={(_, value) => {
+        field.onChange(value?.code ?? '')
       }}
-      value={countries.find((country) => country.code === field.value)}
+      onBlur={field.onBlur}
+      value={selectedCountry}
     />
   )
 }

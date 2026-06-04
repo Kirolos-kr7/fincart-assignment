@@ -56,7 +56,7 @@ export default function OriginForm({ onNext }: { onNext: () => void }) {
       spacing={2}
     >
       <Grid size={12}>
-        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: -1 }}>
+        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: -0.5 }}>
           Sender Details
         </Typography>
       </Grid>
@@ -96,7 +96,7 @@ export default function OriginForm({ onNext }: { onNext: () => void }) {
       </Grid>
 
       <Grid size={12}>
-        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: -1 }}>
+        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: -0.5 }}>
           Location
         </Typography>
       </Grid>
