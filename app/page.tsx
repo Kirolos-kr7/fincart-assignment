@@ -5,11 +5,12 @@ import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import { useState } from 'react'
 import { Container, Grid } from '@mui/material'
-import OriginForm from '@/components/OriginForm'
-import DestinationForm from '@/components/DestinationForm'
-import PackageForm from '@/components/PackageForm'
 import Summary from '@/components/Summary'
 import { useFormStore } from '@/store/formStore'
+import dynamic from 'next/dynamic'
+const OriginForm = dynamic(() => import('@/components/OriginForm'))
+const DestinationForm = dynamic(() => import('@/components/DestinationForm'))
+const PackageForm = dynamic(() => import('@/components/PackageForm'))
 
 const steps = ['Origin Details', 'Destination Details', 'Package Details']
 
