@@ -1,16 +1,14 @@
-'use client'
-
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Container,
-  Typography,
-} from '@mui/material'
+'use client';
 import { Order, useOrdersStore } from '@/store/ordersStore'
 import Summary from '@/components/Summary'
+
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
 export default function OrdersPage() {
   const { orders, clearOrders } = useOrdersStore()

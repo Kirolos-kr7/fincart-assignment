@@ -2,9 +2,11 @@ import { Order } from '@/store/ordersStore'
 import { COURIER_DETAILS } from '@/utils/couriers'
 import { money } from '@/utils/money'
 import { calculateShippingCost } from '@/utils/shipping'
-import { Box, Typography } from '@mui/material'
 import CountryFlag from 'react-country-flag'
 import countriesList from 'country-list'
+
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 export default function Summary({
   order,

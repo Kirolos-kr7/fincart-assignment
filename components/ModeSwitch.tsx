@@ -1,8 +1,8 @@
-'use client'
-
-import { IconButton } from '@mui/material'
+'use client';
 import { useColorScheme } from '@mui/material/styles'
-import { DarkMode, LightMode } from '@mui/icons-material'
+import IconButton from '@mui/material/IconButton';
+import DarkMode from '@mui/icons-material/DarkMode';
+import LightMode from '@mui/icons-material/LightMode';
 
 export default function ModeSwitch() {
   const { mode, setMode } = useColorScheme()

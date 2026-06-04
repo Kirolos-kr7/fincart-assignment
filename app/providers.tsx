@@ -1,13 +1,11 @@
-'use client'
-
+'use client';
 import theme from '@/app/theme'
-import {
-  CssBaseline,
-  InitColorSchemeScript,
-  ThemeProvider,
-} from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter'
 import { SnackbarProvider } from 'material-ui-snackbar-provider'
+
+import CssBaseline from '@mui/material/CssBaseline';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
+import { ThemeProvider } from '@mui/material/styles';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (

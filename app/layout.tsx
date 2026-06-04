@@ -1,6 +1,6 @@
-import { Box } from '@mui/material'
 import Providers from './providers'
 import Navbar from '@/components/Navbar'
+import Box from '@mui/material/Box';
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (

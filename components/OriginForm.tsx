@@ -1,17 +1,16 @@
 import { useFormStore } from '@/store/formStore'
 import { OriginDetails, originDetailsSchema } from '@/utils/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-} from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import CountriesSelect from './CountriesSelect'
+
+import Autocomplete from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 export default function OriginForm({ onNext }: { onNext: () => void }) {
   const { originDetails, setOriginDetails } = useFormStore()

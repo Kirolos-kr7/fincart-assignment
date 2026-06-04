@@ -1,13 +1,13 @@
-'use client'
-
+'use client';
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import { useState } from 'react'
-import { Container, Grid } from '@mui/material'
 import Summary from '@/components/Summary'
 import { useFormStore } from '@/store/formStore'
 import dynamic from 'next/dynamic'
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 const OriginForm = dynamic(() => import('@/components/OriginForm'))
 const DestinationForm = dynamic(() => import('@/components/DestinationForm'))
 const PackageForm = dynamic(() => import('@/components/PackageForm'))

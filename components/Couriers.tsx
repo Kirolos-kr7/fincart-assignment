@@ -1,16 +1,6 @@
-import {
-  Alert,
-  Badge,
-  Box,
-  Button,
-  Grid,
-  Skeleton,
-  Typography,
-} from '@mui/material'
 import Image from 'next/image'
 import { money } from '@/utils/money'
 import { useFormStore } from '@/store/formStore'
-import { Info } from '@mui/icons-material'
 import {
   COURIER_DETAILS,
   COURIERS_LIMITS,
@@ -19,6 +9,15 @@ import {
 } from '@/utils/couriers'
 import { calculateShippingCost } from '@/utils/shipping'
 import { useEffect, useState } from 'react'
+
+import Alert from '@mui/material/Alert'
+import Badge from '@mui/material/Badge'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
+import Info from '@mui/icons-material/Info'
 
 export default function Couriers({
   selectedCourierId,
@@ -40,10 +39,6 @@ export default function Couriers({
   )
   const [courierLimits, setCourierLimits] = useState<typeof COURIERS_LIMITS>([])
 
-  useEffect(() => {
-    loadCouriers()
-  }, [])
-
   const loadCouriers = async () => {
     setLoading(true)
 
@@ -60,6 +55,10 @@ export default function Couriers({
 
     setLoading(false)
   }
+
+  useEffect(() => {
+    loadCouriers()
+  }, [])
 
   const filteredCouriers = courierDetails
     .filter(

@@ -1,7 +1,10 @@
 import Image from 'next/image'
-import { Toolbar, Box, Link } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import ModeSwitch from './ModeSwitch'
+
+import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 
 export default function Navbar() {
   return (
