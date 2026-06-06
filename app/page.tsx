@@ -15,7 +15,9 @@ const PackageForm = dynamic(() => import('@/components/PackageForm'))
 const steps = ['Origin Details', 'Destination Details', 'Package Details']
 
 export default function HomePage() {
-  const { originDetails, destinationDetails, packageDetails } = useFormStore()
+  const originDetails = useFormStore((state) => state.originDetails)
+  const destinationDetails = useFormStore((state) => state.destinationDetails)
+  const packageDetails = useFormStore((state) => state.packageDetails)
   const [activeStep, setActiveStep] = useState(0)
 
   const handleNext = () => {

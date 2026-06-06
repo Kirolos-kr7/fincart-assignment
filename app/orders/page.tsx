@@ -11,7 +11,8 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 export default function OrdersPage() {
-  const { orders, clearOrders } = useOrdersStore()
+  const orders = useOrdersStore((state) => state.orders)
+  const clearOrders = useOrdersStore((state) => state.clearOrders)
 
   return (
     <Container>

@@ -19,13 +19,12 @@ import Typography from '@mui/material/Typography';
 export default function PackageForm({ onBack }: { onBack: () => void }) {
   const router = useRouter()
   const { showMessage } = useSnackbar()
-  const { addOrder } = useOrdersStore()
-  const {
-    packageDetails,
-    setPackageDetails,
-    originDetails,
-    destinationDetails,
-  } = useFormStore()
+  const addOrder = useOrdersStore((state) => state.addOrder)
+
+  const packageDetails = useFormStore((state) => state.packageDetails)
+  const setPackageDetails = useFormStore((state) => state.setPackageDetails)
+  const originDetails = useFormStore((state) => state.originDetails)
+  const destinationDetails = useFormStore((state) => state.destinationDetails)
 
   const form = useForm<PackageDetails>({
     resolver: zodResolver(packageDetailsSchema),

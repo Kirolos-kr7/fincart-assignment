@@ -2,16 +2,14 @@ import { useFormStore } from '@/store/formStore'
 import { DestinationDetails, destinationDetailsSchema } from '@/utils/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
-import countriesList from 'country-list'
 import { useEffect } from 'react'
 import CountriesSelect from './CountriesSelect'
 
-import Autocomplete from '@mui/material/Autocomplete';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 
 export default function DestinationForm({
   onNext,
@@ -20,8 +18,10 @@ export default function DestinationForm({
   onBack: () => void
   onNext: () => void
 }) {
-  const { destinationDetails, setDestinationDetails } = useFormStore()
-  const countries = countriesList.getData()
+  const destinationDetails = useFormStore((state) => state.destinationDetails)
+  const setDestinationDetails = useFormStore(
+    (state) => state.setDestinationDetails,
+  )
   const form = useForm<DestinationDetails>({
     resolver: zodResolver(destinationDetailsSchema),
     defaultValues: destinationDetails,

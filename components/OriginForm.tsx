@@ -13,7 +13,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 export default function OriginForm({ onNext }: { onNext: () => void }) {
-  const { originDetails, setOriginDetails } = useFormStore()
+  const originDetails = useFormStore((state) => state.originDetails)
+  const setOriginDetails = useFormStore((state) => state.setOriginDetails)
 
   const form = useForm<OriginDetails>({
     resolver: zodResolver(originDetailsSchema),

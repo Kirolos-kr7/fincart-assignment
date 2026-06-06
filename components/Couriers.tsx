@@ -26,7 +26,9 @@ export default function Couriers({
   selectedCourierId: number | null
   setSelectedCourierId: (courierId: number | null) => void
 }) {
-  const { originDetails, destinationDetails, packageDetails } = useFormStore()
+  const originDetails = useFormStore((state) => state.originDetails)
+  const destinationDetails = useFormStore((state) => state.destinationDetails)
+  const packageDetails = useFormStore((state) => state.packageDetails)
   const originCountry = originDetails.originCountry
   const destinationCountry = destinationDetails.destinationCountry
   const isInternational = originCountry !== destinationCountry
