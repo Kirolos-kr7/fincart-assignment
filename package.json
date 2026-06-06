@@ -22,6 +22,7 @@
     "@mui/material": "latest",
     "@mui/material-nextjs": "latest",
     "@types/country-list": "^2.1.4",
+    "babel-plugin-react-compiler": "^1.0.0",
     "country-list": "^2.4.1",
     "material-ui-snackbar-provider": "^2.0.0",
     "next": "^16.0.7",
